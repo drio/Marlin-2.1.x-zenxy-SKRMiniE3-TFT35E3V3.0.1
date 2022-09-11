@@ -1,0 +1,39 @@
+# vim: set ft=make
+BIN=./.pio/build/STM32G0B1RE_btt/firmware.bin
+CARD=/Volumes/ZENXY
+DEV=/dev/disk4s1
+
+.PHONY: build all clean copy eject details
+
+build: $(BIN)
+
+$(BIN):
+	platformio run
+
+all: $(CARD) clean build copy details eject 
+
+clean:
+	rm -f $(BIN)
+
+copy:
+	cp $(BIN) $(CARD)
+
+eject:
+	diskutil eject $(DEV)
+
+details:
+	ls -lacd $(CARD)/firmware.bin
+
+load-original-firmware: $(CARD) firmware-ender3.bin
+	mv firmware-ender3.bin $(CARD)/firmware.bin
+	@echo "✨"
+	ls -lacd $(CARD)/firmware.bin
+	diskutil eject $(DEV)
+	@echo "🚀"
+
+firmware-ender3.bin:
+	@curl -LO https://github.com/bigtreetech/BIGTREETECH-SKR-mini-E3/raw/master/firmware/V3.0/Marlin/firmware-ender3.bin
+	ls -lac $@
+
+checkout-mini-branch:
+	git co --track origin/SKR-mini-E3-F401
