@@ -3,9 +3,15 @@ BIN=./.pio/build/STM32G0B1RE_btt/firmware.bin
 CARD=/Volumes/ZENXY
 DEV=/dev/disk4s1
 
-.PHONY: build all clean copy eject details
+.PHONY: build all clean copy eject details watch
 
 build: $(BIN)
+
+watch:
+	@ls Marlin/Configuration* | entr -s 'make -f Makefile.drio clean $(BIN)'
+
+errors:
+	@echo 'make -f Makefile.drio >/dev/null 2>&1 | grep "error: " |  head '
 
 $(BIN):
 	platformio run
