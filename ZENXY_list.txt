@@ -1,4 +1,5 @@
 LIST OF CONSTANTS to add to make the board ZENXY READY
+TODO: https://github.com/V1EngineeringInc/MarlinBuilder/blob/main/src/configs/V1ZXY_SkrPro_2209#L9
 
 -- opt_set CUSTOM_MACHINE_NAME "\"ZenXY ${V1_VERSION}\""
 
